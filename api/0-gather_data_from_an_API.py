@@ -6,7 +6,7 @@ from requests import get
 from sys import argv
 
 
-def api_api():
+def get_api():
     """Data struct to api """
     employee_id = int(argv[1])
     employee_name = ""
@@ -38,4 +38,4 @@ def api_api():
 
 
 if __name__ == '__main__':
-    api_api()
+    get_api()
