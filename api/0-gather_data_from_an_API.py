@@ -16,7 +16,7 @@ def get_api():
 
     users_res = get("https://jsonplaceholder.typicode.com/users").json()
     for user in users_res:
-        if (user['id']) == employee_id:
+        if user['id'] == employee_id:
             employee_name = user['name']
             break
 
