@@ -28,11 +28,11 @@ def api_api():
                 number_of_done_tasks += 1
             number_of_tasks += 1
 
-print('Employee {} is done with tasks({}/{}):'.format(employee_name,
+    print('Employee {} is done with tasks({}/{}):'.format(employee_name,
                                                           number_of_done_tasks,
                                                           number_of_tasks))
-for title in titles_of_tasks:
-    print("\t {}".format(title))
+    for title in titles_of_tasks:
+        print("\t {}".format(title))
 
 
 if __name__ == '__main__':
