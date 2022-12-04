@@ -1,4 +1,7 @@
 #!/usr/bin/python3
+"""Return the information about an employee from an API
+whose ID is passed into the script"""
+
 from requests import get
 from sys import argv
 
