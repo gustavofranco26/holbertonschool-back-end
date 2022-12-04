@@ -5,6 +5,7 @@ whose ID is passed into the script"""
 from requests import get
 from sys import argv
 
+
 def api_api():
     """Data struct to api """
     employee_id = int(argv[1])
@@ -30,11 +31,11 @@ def api_api():
             number_of_tasks += 1
 
     print("Employee {} is done with tasks({}/{}):".format(employee_name,
-                                                           number_of_done_tasks,
-                                                           number_of_tasks))
+                                                          number_of_done_tasks,
+                                                          number_of_tasks))
     for title in titles_of_tasks:
         print("\t {}".format(title))
-        
+
 
 if __name__ == '__main__':
     api_api()
