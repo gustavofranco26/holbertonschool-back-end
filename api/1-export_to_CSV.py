@@ -1,10 +1,12 @@
 #!/usr/bin/python3
 ''' Export to CSV '''
-import csv
-import requests
-import sys
+
 
 if __name__ == '__main__':
+    import csv
+    import requests
+    import sys
+
     base_url = 'https://jsonplaceholder.typicode.com/'
 
     user = '{}users/{}'.format(base_url, sys.argv[1])
