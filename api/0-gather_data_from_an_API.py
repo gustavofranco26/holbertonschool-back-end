@@ -1,24 +1,23 @@
 #!/usr/bin/python3
-"""Return the information about an employee from an API
-whose ID is passed into the script"""
+"""This module takes an employee ID and returns information about his/her
+TO DO list progress"""
+import requests
+from sys import argv
 
-if __name__ == '__main__':
-    import requests
-    import sys
-
-    url = 'https://jsonplaceholder.typicode.com'
-
-    employee = requests.get('{}/users/{}'.format(url, sys.argv[1]))
-    employee_name = employee.json().get('name')
-
-    tasks = requests.get('{}/todos?userId={}'.format(url, sys.argv[1]))
-    task_list = tasks.json()
-    total_tasks = len(task_list)
-    completed_tasks = sum(1 for task in task_list if task.get('completed'))
-
-    print('Employee {} is done with tasks({}/{}):'.format(employee_name,
-                                                          completed_tasks,
-                                                          total_tasks))
-    for task in task_list:
-        if task.get('completed'):
-            print('\t {}'.format(task.get('title')))
+if __name__ == "__main__":
+    num_tasks = 0
+    completed = 0
+    completed_tasks = []
+    r = requests.get('https://jsonplaceholder.typicode.com/users/{:}'
+                     .format(argv[1])).json()
+    r2 = requests.get('https://jsonplaceholder.typicode.com/todos/?userId={:}'
+                      .format(argv[1])).json()
+    for task in r2:
+        num_tasks += 1
+        if task.get('completed') is True:
+            completed += 1
+            completed_tasks.append(task.get('title'))
+    print("Employee {:} is done with tasks({:}/{:}):".format(
+            r.get('name'), completed, num_tasks))
+    for item in completed_tasks:
+        print("\t {:}".format(item))
