@@ -1,30 +1,41 @@
 #!/usr/bin/python3
-"""
-Using a REST API, for a given employee ID,
-returns information about his/her DOTO .
-"""
+"""Return the information about an employee from an API
+whose ID is passed into the script"""
+
 from requests import get
 from sys import argv
 
 
-if __name__ == "__main__":
-    b_url = 'https://jsonplaceholder.typicode.com/users/'
-    u_id = argv[1]
-    f_msg = 'Employee {} is done with tasks({}/{}):'
+def api_api():
+    """Data struct to api """
+    employee_id = int(argv[1])
+    employee_name = ""
+    number_of_done_tasks = 0
+    number_of_tasks = 0
+    titles_of_tasks = []
 
-    u_url = '{}{}'.format(b_url, u_id)
-    todo_url = '{}{}/todos'.format(b_url, u_id)
-    completed_tasks_url = '{}?completed=true'.format(todo_url)
+    users_res = get("https://jsonplaceholder.typicode.com/users").json()
 
-    user = get(u_url).json()
-    all_tasks = get(todo_url).json()
-    completed_tasks = get(completed_tasks_url).json()
+    for user in users_res:
+        if (user['id']) == employee_id:
+            employee_name = user['name']
+            break
 
-    name = user.get('name')
-    total_tasks = len(all_tasks)
-    done_tasks = len(completed_tasks)
+    tasks_res = get("https://jsonplaceholder.typicode.com/todos").json()
 
-    print(final_msg.format(name, done_tasks, total_tasks))
+    for task in tasks_res:
+        if (task['userId'] == employee_id):
+            if task['completed']:
+                titles_of_tasks.append(task['title'])
+                number_of_done_tasks += 1
+            number_of_tasks += 1
 
-    for task in completed_tasks:
-        print('\t {}'.format(task.get("title")))
+    print("Employee {} is done with tasks({}/{}):".format(employee_name,
+                                                          number_of_done_tasks,
+                                                          number_of_tasks))
+    for title in titles_of_tasks:
+        print("\t {}".format(title))
+
+
+if __name__ == '__main__':
+    api_api()
