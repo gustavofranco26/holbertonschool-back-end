@@ -1,7 +1,6 @@
 #!/usr/bin/python3
 """ Export to CSV """
 
-
 if __name__ == '__main__':
     import csv
     import requests
