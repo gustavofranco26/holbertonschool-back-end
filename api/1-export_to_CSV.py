@@ -1,31 +1,31 @@
 #!/usr/bin/python3
-""" Export to CSV """
+''' Export data in the CSV format '''
+import csv
+import requests
+from sys import argv
+
+
+def get_api():
+    ''' Gather data from an API '''
+    url = 'https://jsonplaceholder.typicode.com/'
+    uid = argv[1]
+
+    # get a specific user from users in jsonplaceholder
+    usr = requests.get(url + 'users/{}'.format(uid)).json()
+    # make a query string to get tasks based on user id
+    todo = requests.get(url + 'todos', params={'userId': uid}).json()
+
+    with open('{}.csv'.format(uid), 'w') as file:
+        writer = csv.writer(file, quoting=csv.QUOTE_ALL)
+        for employee in todo:
+            user_id = uid
+            username = usr.get('username')
+            task_comp = employee.get('completed')
+            task_title = employee.get('title')
+
+            emp_record = [user_id, username, task_comp, task_title]
+            writer.writerow(emp_record)
+
 
 if __name__ == '__main__':
-    import csv
-    import requests
-    import sys
-
-    base_url = 'https://jsonplaceholder.typicode.com/'
-
-    user = '{}users/{}'.format(base_url, sys.argv[1])
-    res = requests.get(user)
-    json_user = res.json()
-    username = json_user.get('username')
-
-    todos = '{}todos?userId={}'.format(base_url, sys.argv[1])
-    res = requests.get(todos)
-    json_tasks = res.json()
-    done_tasks = []
-
-    for todo in json_tasks:
-        done_tasks.append(
-            [sys.argv[1], username, todo.get('completed'), todo.get('title')])
-
-    csv_file = sys.argv[1] + '.csv'
-    with open(csv_file, mode='w', encoding='utf-8') as file:
-        writer = csv.writer(file, delimiter=',',
-                            quotechar='"', quoting=csv.QUOTE_ALL)
-
-        for task in done_tasks:
-            writer.writerow(task)
+    get_api()
